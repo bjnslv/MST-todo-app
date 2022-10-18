@@ -1,6 +1,7 @@
 import React from "react";
-import { observer } from "mobx-react";
-import { values } from "mobx";
+import {observer} from "mobx-react";
+import {values} from "mobx";
+import "./App.css";
 
 const randomId = () => Math.floor(Math.random() * 1000).toString(36);
 
@@ -43,7 +44,7 @@ const TodoCounterView = observer((props) => (
 ));
 
 const App = observer((props) => (
-  <div>
+  <div className="App">
     <button onClick={(e) => props.store.addTodo(randomId(), "New Task")}>
       Add Task
     </button>
