@@ -52,24 +52,24 @@ const store = RootStore.create({
   }
 });
 
+const TodoView = observer((props)=> (
+  <div>
+     <input type="checkbox" checked={props.todo.done} onChange={e => props.todo.toggle()} />
+        <input
+            type="text"
+            value={props.todo.name}
+            onChange={e => props.todo.setName(e.target.value)}
+        />
+  </div>
+))
+
 const App = observer(() => (
   <div>
     <button onClick={e => store.addTodo(randomId(), "New Task")}>
       Add Task
     </button>
     {values(store.todos).map(todo => (
-      <div key={todo.id}>
-        <input
-          type="checkbox"
-          checked={todo.done}
-          onChange={e => todo.toggle()}
-        />
-        <input
-          type="text"
-          value={todo.name}
-          onChange={e => todo.setName(e.target.value)}
-        />
-      </div>
+      <TodoView todo={todo} />
     ))}
   </div>
 ));
