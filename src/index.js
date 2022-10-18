@@ -3,9 +3,9 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { types } from "mobx-state-tree";
+import {types} from "mobx-state-tree";
 
-import { values } from "mobx";
+import {values} from "mobx";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -13,7 +13,7 @@ const Todo = types
   .model({
     name: types.optional(types.string, ""),
     done: types.optional(types.boolean, false),
-    user: types.maybe(types.reference(types.late(() => User)))
+    user: types.maybe(types.reference(types.late(() => User))),
   })
   .actions((self) => {
     function setName(newName) {
@@ -31,18 +31,18 @@ const Todo = types
       self.done = !self.done;
     }
 
-    return { setName, setUser, toggle };
+    return {setName, setUser, toggle};
   });
 
 const User = types.model({
   id: types.identifier,
-  name: types.optional(types.string, "")
+  name: types.optional(types.string, ""),
 });
 
 const RootStore = types
   .model({
     users: types.map(User),
-    todos: types.map(Todo)
+    todos: types.map(Todo),
   })
   .views((self) => ({
     get pendingCount() {
@@ -53,42 +53,42 @@ const RootStore = types
     },
     getTodosWhereDoneIs(done) {
       return values(self.todos).filter((todo) => todo.done === done);
-    }
+    },
   }))
   .actions((self) => {
     function addTodo(id, name) {
-      self.todos.set(id, Todo.create({ name }));
+      self.todos.set(id, Todo.create({name}));
     }
 
-    return { addTodo };
+    return {addTodo};
   });
 
 const store = RootStore.create({
   users: {
-    "1": {
+    1: {
       id: "1",
-      name: "mweststrate"
+      name: "mweststrate",
     },
-    "2": {
+    2: {
       id: "2",
-      name: "mattiamanzati"
+      name: "mattiamanzati",
     },
-    "3": {
+    3: {
       id: "3",
-      name: "johndoe"
-    }
+      name: "johndoe",
+    },
   },
   todos: {
-    "1": {
+    1: {
       name: "Eat a cake",
-      done: true
-    }
-  }
+      done: true,
+    },
+  },
 });
 
 root.render(
   <React.StrictMode>
-    <App store={store}/>
+    <App store={store} />
   </React.StrictMode>
 );
 
